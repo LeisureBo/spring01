@@ -26,6 +26,8 @@
 		<!-- 正则表达式规则 :匹配的是方法的完整路径 例:com.java.ingo.service.impl.BaseBusiness.add-->
 		<property name="patterns">
 			<list>
+				<value>.*add</value>
+				<value>.*update</value>
 				<value>.*delete</value>
 			</list>
 		</property>
