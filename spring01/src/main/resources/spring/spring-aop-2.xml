@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!-- 声明一个业务类 -->
+	<bean id="customerService" class="com.bo.demo.service.impl.CustomerServiceImpl" />
+	
+	<!-- 声明通知类 -->
+	<bean id="demoBeforeAdvice" class="com.bo.demo.advice.DemoBeforeAdvice" />
+	<bean id="demoAfterReturnAdvice" class="com.bo.demo.advice.DemoAfterReturnAdvice" />
+	<bean id="demoAroundAdvice" class="com.bo.demo.advice.DemoAroundAdvice" />
+	<bean id="demoAfterThrowsAdvice" class="com.bo.demo.advice.DemoAfterThrowsAdvice" />
+	<!-- 指定切点匹配类 -->
+	<bean id="pointcut" class="com.bo.demo.point.Pointcut" />
+	
+	<!-- 包装前置通知 -->
+	<bean id="matchBeforeAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut" />
+		<property name="advice" ref="demoBeforeAdvice" />
+	</bean>
+	
+	<!-- 包装后置通知 -->
+	<bean id="matchAfterAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<!-- 正则表达式规则 :匹配的是方法的完整路径 例:com.java.ingo.service.impl.BaseBusiness.add-->
+		<property name="patterns">
+			<list>
+				<value>.*delete</value>
+			</list>
+		</property>
+		<property name="advice" ref="demoAfterReturnAdvice" />
+	</bean>
+	
+	<!-- 包装环绕通知 -->
+	<bean id="matchAroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<list>
+				<value>add*</value>
+				<value>update*</value>
+				<value>delete*</value>
+			</list>
+		</property>
+		<property name="advice" ref="demoAroundAdvice" />
+	</bean>
+	
+	<!-- 声明AOP代理基类,使用  ProxyFactoryBean 产生代理对象-->
+	<bean id="baseProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		 <!-- 代理对象所使用的advice，即4种通知--> 
+		<property name="interceptorNames">
+			<list>
+				<!-- 调用顺序与声明的顺序有关    前通知:队列    后通知:堆栈-->
+				<value>matchBeforeAdvisor</value>
+				<value>matchAroundAdvisor</value>
+				<value>matchAfterAdvisor</value>
+				<value>demoAfterThrowsAdvice</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 具体的AOP业务代理bean -->
+	<!-- 在目标切入对象如果有实现接口，spring会默认走jdk动态代理来实现代理类。如果没有接口，则会通过cglib来实现代理类。 -->
+	<bean id="customerServiceProxy" parent="baseProxy">
+		<!-- 代理对象所实现的接口 ，如果有接口可以这样设置 --> 
+		<property name="interfaces">
+			<list>
+				<value>com.bo.demo.service.CustomerService</value>
+			</list>
+		</property>
+		<!-- 设置目标对象 --> 
+		<property name="target" ref="customerService"/>
+	</bean>
+
+</beans>
