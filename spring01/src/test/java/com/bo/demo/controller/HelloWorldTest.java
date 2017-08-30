@@ -60,7 +60,7 @@ public class HelloWorldTest {
 	 */
 	@Test
 	public void testSayHello() {
-		helloWorld.sayHello();//测试方法
+		helloWorld.sayHello();//测试方法..
 	}
 
 }
