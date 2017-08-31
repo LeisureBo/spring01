@@ -63,7 +63,8 @@ public class CustomerServiceImplTest {
 	@Test
 	public void testDelete() {
 //		customerService.delete(new Customer("xiaoMing","男",23));
-		customerService.add(new Customer("xiaoMei","女",23));
+//		customerService.add(new Customer("xiaoMei","女",23));
+		customerService.update(new Customer("Shan","女",24));
 	}
 
 }
