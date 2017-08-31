@@ -12,16 +12,19 @@
 	<bean id="demoAfterReturnAdvice" class="com.bo.demo.advice.DemoAfterReturnAdvice" />
 	<bean id="demoAroundAdvice" class="com.bo.demo.advice.DemoAroundAdvice" />
 	<bean id="demoAfterThrowsAdvice" class="com.bo.demo.advice.DemoAfterThrowsAdvice" />
+	
 	<!-- 指定切点匹配类 -->
 	<bean id="pointcut" class="com.bo.demo.point.Pointcut" />
 	
-	<!-- 包装前置通知 -->
+	<!-- 常用的指定切入点的PointAdvisor有三种，DefaultPointcutAdvisor,RegexpMethodPointcutAdvisor和 NameMatchMethodPointcutAdvisor -->
+
+	<!-- 包装前置通知(使用DefaultPointcutAdvisor以及自定义切入点类来包装)-->
 	<bean id="matchBeforeAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
 		<property name="pointcut" ref="pointcut" />
 		<property name="advice" ref="demoBeforeAdvice" />
 	</bean>
 	
-	<!-- 包装后置通知 -->
+	<!-- 包装后置通知 (使用RegexpMethodPointcutAdvisor使用正则表达式方法匹配规则包装后置通知)-->
 	<bean id="matchAfterAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
 		<!-- 正则表达式规则 :匹配的是方法的完整路径 例:com.java.ingo.service.impl.BaseBusiness.add-->
 		<property name="patterns">
@@ -34,8 +37,9 @@
 		<property name="advice" ref="demoAfterReturnAdvice" />
 	</bean>
 	
-	<!-- 包装环绕通知 -->
+	<!-- 包装环绕通知 (使用NameMatchMethodPointcutAdvisor方法名匹配规则包装环绕通知)-->
 	<bean id="matchAroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<!-- 只匹配方法名，不会管类名和包名 -->
 		<property name="mappedNames">
 			<list>
 				<value>add*</value>
@@ -44,6 +48,12 @@
 			</list>
 		</property>
 		<property name="advice" ref="demoAroundAdvice" />
+	</bean>
+	
+	<!-- 包装异常通知 -->
+	<bean id="matchThrowsAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut" />
+		<property name="advice" ref="demoAfterThrowsAdvice" />
 	</bean>
 	
 	<!-- 声明AOP代理基类,使用  ProxyFactoryBean 产生代理对象-->
@@ -55,7 +65,7 @@
 				<value>matchBeforeAdvisor</value>
 				<value>matchAroundAdvisor</value>
 				<value>matchAfterAdvisor</value>
-				<value>demoAfterThrowsAdvice</value>
+				<value>matchThrowsAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -69,7 +79,7 @@
 				<value>com.bo.demo.service.CustomerService</value>
 			</list>
 		</property>
-		<!-- 设置目标对象 --> 
+		<!-- 设置目标对象 -->
 		<property name="target" ref="customerService"/>
 	</bean>
 

@@ -17,4 +17,8 @@ public interface CustomerService {
 	public void add(Customer customer);
 	
 	public void update(Customer customer);
+	
+	public void testSay(String content);
+	
+	public Integer testRecharge(Double money);
 }

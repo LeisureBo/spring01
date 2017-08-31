@@ -29,7 +29,7 @@ public class CustomerServiceImplTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ctx = new ClassPathXmlApplicationContext("spring/spring-aop-2.xml");
+		ctx = new ClassPathXmlApplicationContext("spring/spring-aop-4.xml");
 	}
 
 	/**
@@ -46,7 +46,12 @@ public class CustomerServiceImplTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		customerService = (CustomerService) ctx.getBean("customerServiceProxy");
+		// spring aop实现1
+//		customerService = (CustomerService) ctx.getBean("customerServiceProxy");
+		// spring aop实现2
+//		customerService = (CustomerService) ctx.getBean("customerService");
+		// spring aop实现3
+		customerService = (CustomerService) ctx.getBean("customerServiceImpl");
 	}
 
 	/**
@@ -61,10 +66,12 @@ public class CustomerServiceImplTest {
 	 * Test method for {@link com.bo.demo.service.impl.CustomerServiceImpl#delete(com.bo.demo.entity.Customer)}.
 	 */
 	@Test
-	public void testDelete() {
+	public void testAOP() {
 //		customerService.delete(new Customer("xiaoMing","男",23));
 //		customerService.add(new Customer("xiaoMei","女",23));
-		customerService.update(new Customer("Shan","女",24));
+//		customerService.update(new Customer("Shan","女",24));
+//		customerService.testSay("I'm learning spring AOP");
+		customerService.testRecharge(100d);
 	}
 
 }

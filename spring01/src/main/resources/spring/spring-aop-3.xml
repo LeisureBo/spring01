@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
+	<!-- 声明一个业务类 -->
+	<bean id="customerService" class="com.bo.demo.service.impl.CustomerServiceImpl" />
+	
+	<!-- 声明切面通知类 将切面交给spring管理-->
+	<bean id="aspectAdvice" class="com.bo.demo.advice.AspectAdvice" />
+	
+	<!-- 进行AOP配置 -->
+	<aop:config>
+		<aop:aspect id="businessAspect" ref="aspectAdvice">
+			<!-- 配置指定切入的对象 -->
+			<aop:pointcut expression="execution (* com.bo.demo.service.impl.*.*(..))" id="point_cut"/>
+			<!-- 以下通知调用的顺序与声明顺序无关.默认顺序:前置>环绕>后置1>异常>后置2 -->
+			<!-- 将通知类的doBefore方法指定为前置通知 -->
+			<aop:before method="doBefore" pointcut-ref="point_cut" />
+			<!-- 将通知类的doBefore方法指定为环绕通知 -->
+			<aop:around method="doAround" pointcut-ref="point_cut" />
+			<!-- 将通知类的doAfter方法指定为后置通知1 -->
+			<aop:after method="doAfter" pointcut-ref="point_cut"/>
+			<!-- 将通知类的doBefore方法指定为后置通知2 注意声明:returning返回值参数(如果有) 代表拦截返回类型为参数声明类型的方法,并将返回值注入到当前方法的形参result中-->
+			<aop:after-returning method="doAfterReturn" pointcut-ref="point_cut" returning="result" />
+			<!-- 将通知类的doBefore方法指定为异常通知 注意声明:throwing异常参数(如果有) 代表拦截异常类型为参数声明类型的方法-->
+			<aop:after-throwing method="doAfterThrows" pointcut-ref="point_cut" throwing="e"/>
+		</aop:aspect>
+	</aop:config>
+</beans>
