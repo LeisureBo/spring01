@@ -57,7 +57,7 @@
 	</bean>
 	
 	<!-- 声明AOP代理基类,使用  ProxyFactoryBean 产生代理对象-->
-	<bean id="baseProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<bean id="baseProxy" class="org.springframework.aop.framework.ProxyFactoryBean" lazy-init="true" abstract="true">
 		 <!-- 代理对象所使用的advice，即4种通知--> 
 		<property name="interceptorNames">
 			<list>
