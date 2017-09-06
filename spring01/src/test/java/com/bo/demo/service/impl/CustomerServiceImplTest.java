@@ -46,11 +46,11 @@ public class CustomerServiceImplTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// spring aop实现1
+		// spring aop实现1(配置文件1+2)
 //		customerService = (CustomerService) ctx.getBean("customerServiceProxy");
-		// spring aop实现2
+		// spring aop实现2(配置文件3)
 //		customerService = (CustomerService) ctx.getBean("customerService");
-		// spring aop实现3
+		// spring aop实现3(配置文件4)
 		customerService = (CustomerService) ctx.getBean("customerServiceImpl");
 	}
 
