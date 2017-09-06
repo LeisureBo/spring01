@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!-- 使用"*AutoProxyCreator"自动为spring容器的bean执行AOP代理 [简化配置] -->
+	
+	<!-- 声明一个业务类 -->
+	<bean id="customerService" class="com.bo.demo.service.impl.CustomerServiceImpl" />
+	
+	<!-- 声明通知类 -->
+	<bean id="demoBeforeAdvice" class="com.bo.demo.advice.DemoBeforeAdvice" />
+	<bean id="demoAfterReturnAdvice" class="com.bo.demo.advice.DemoAfterReturnAdvice" />
+	<bean id="demoAroundAdvice" class="com.bo.demo.advice.DemoAroundAdvice" />
+	<bean id="demoAfterThrowsAdvice" class="com.bo.demo.advice.DemoAfterThrowsAdvice" />
+	
+	<!-- 指定切点匹配类 -->
+	<bean id="pointcut" class="com.bo.demo.point.Pointcut" />
+	
+	<!-- 常用的指定切入点的PointAdvisor有三种，DefaultPointcutAdvisor,RegexpMethodPointcutAdvisor和 NameMatchMethodPointcutAdvisor -->
+
+	<!-- 包装前置通知(使用DefaultPointcutAdvisor以及自定义切入点类来包装)-->
+	<bean id="matchBeforeAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut" />
+		<property name="advice" ref="demoBeforeAdvice" />
+	</bean>
+	
+	<!-- 包装后置通知 (使用RegexpMethodPointcutAdvisor使用正则表达式方法匹配规则包装后置通知)-->
+	<bean id="matchAfterAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<!-- 正则表达式规则 :匹配的是方法的完整路径 例:com.java.ingo.service.impl.BaseBusiness.add-->
+		<property name="patterns">
+			<list>
+				<value>.*add</value>
+				<value>.*update</value>
+				<value>.*delete</value>
+			</list>
+		</property>
+		<property name="advice" ref="demoAfterReturnAdvice" />
+	</bean>
+	
+	<!-- 包装环绕通知 (使用NameMatchMethodPointcutAdvisor方法名匹配规则包装环绕通知)-->
+	<bean id="matchAroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<!-- 只匹配方法名，不会管类名和包名 -->
+		<property name="mappedNames">
+			<list>
+				<value>add*</value>
+				<value>update*</value>
+				<value>delete*</value>
+			</list>
+		</property>
+		<property name="advice" ref="demoAroundAdvice" />
+	</bean>
+	
+	<!-- 包装异常通知 -->
+	<bean id="matchThrowsAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut" />
+		<property name="advice" ref="demoAfterThrowsAdvice" />
+	</bean>
+
+	<!-- 基于BeanNameAutoProxyCreator的自动代理:配置要拦截哪些类，并使用那些拦截器 -->
+	<!-- 通过目标类调用业务方法时，将由BeanNameAutoProxyCreator自动创建的代理来执行 -->
+	<bean id="serviceAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<!-- <property name="proxyTargetClass" value="true" /> -->
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- 调用顺序与声明的顺序有关    前通知:队列    后通知:堆栈-->
+				<value>matchBeforeAdvisor</value>
+				<value>matchAroundAdvisor</value>
+				<value>matchAfterAdvisor</value>
+				<value>matchThrowsAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
