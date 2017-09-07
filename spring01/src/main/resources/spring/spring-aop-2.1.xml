@@ -59,7 +59,7 @@
 		<property name="advice" ref="demoAfterThrowsAdvice" />
 	</bean>
 
-	<!-- 基于BeanNameAutoProxyCreator的自动代理:配置要拦截哪些类，并使用那些拦截器 -->
+	<!-- 1.基于BeanNameAutoProxyCreator的自动代理:配置要拦截哪些类，并使用那些拦截器 -->
 	<!-- 通过目标类调用业务方法时，将由BeanNameAutoProxyCreator自动创建的代理来执行 -->
 	<bean id="serviceAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<!-- <property name="proxyTargetClass" value="true" /> -->
@@ -79,4 +79,8 @@
 		</property>
 	</bean>
 	
+	<!-- 2.基于DefaultAdvisorAutoProxyCreator 自动扫描切面代理类(Advisor) -->
+	<!-- <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+		<property name="optimize" value="true"></property>
+	</bean> -->
 </beans>
