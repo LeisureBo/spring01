@@ -1,4 +1,4 @@
-package com.bo.demo.service.impl;
+package com.bo.spring.service.impl;
 
 import static org.junit.Assert.*;
 
@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.bo.demo.entity.Customer;
-import com.bo.demo.service.CustomerService;
+import com.bo.spring.entity.Customer;
+import com.bo.spring.service.CustomerService;
 
 /**
  * @Description AOP测试
@@ -63,7 +63,7 @@ public class CustomerServiceImplTest {
 	}
 
 	/**
-	 * Test method for {@link com.bo.demo.service.impl.CustomerServiceImpl#delete(com.bo.demo.entity.Customer)}.
+	 * Test method for {@link com.bo.spring.service.impl.CustomerServiceImpl#delete(com.bo.spring.entity.Customer)}.
 	 */
 	@Test
 	public void testAOP() {

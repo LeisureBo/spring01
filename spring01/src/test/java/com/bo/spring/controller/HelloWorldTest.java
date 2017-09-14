@@ -1,4 +1,4 @@
-package com.bo.demo.controller;
+package com.bo.spring.controller;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.bo.spring.controller.HelloWorld;
 
 /**
  * @Description 
@@ -56,7 +58,7 @@ public class HelloWorldTest {
 	}
 
 	/**
-	 * Test method for {@link com.bo.demo.controller.HelloWorld#sayHello()}.
+	 * Test method for {@link com.bo.spring.controller.HelloWorld#sayHello()}.
 	 */
 	@Test
 	public void testSayHello() {

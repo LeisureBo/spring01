@@ -1,4 +1,4 @@
-package com.bo.demo.point;
+package com.bo.spring.point;
 
 import java.lang.reflect.Method;
 

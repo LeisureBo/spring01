@@ -1,6 +1,6 @@
-package com.bo.demo.service;
+package com.bo.spring.service;
 
-import com.bo.demo.entity.Customer;
+import com.bo.spring.entity.Customer;
 
 /**
  * @Description 业务接口

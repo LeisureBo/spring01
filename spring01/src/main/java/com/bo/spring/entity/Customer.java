@@ -1,4 +1,4 @@
-package com.bo.demo.entity;
+package com.bo.spring.entity;
 
 /**
  * @Description 实体类

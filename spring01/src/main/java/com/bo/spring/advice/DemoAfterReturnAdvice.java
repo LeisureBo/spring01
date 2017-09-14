@@ -1,4 +1,4 @@
-package com.bo.demo.advice;
+package com.bo.spring.advice;
 
 import java.lang.reflect.Method;
 

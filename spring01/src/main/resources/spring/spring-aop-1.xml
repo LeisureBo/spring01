@@ -5,13 +5,13 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	
 	<!-- 声明一个业务类 -->
-	<bean id="customerService" class="com.bo.demo.service.impl.CustomerServiceImpl" />
+	<bean id="customerService" class="com.bo.spring.service.impl.CustomerServiceImpl" />
 	
 	<!-- 声明通知类 -->
-	<bean id="demoBeforeAdvice" class="com.bo.demo.advice.DemoBeforeAdvice" />
-	<bean id="demoAfterReturnAdvice" class="com.bo.demo.advice.DemoAfterReturnAdvice" />
-	<bean id="demoAroundAdvice" class="com.bo.demo.advice.DemoAroundAdvice" />
-	<bean id="demoAfterThrowsAdvice" class="com.bo.demo.advice.DemoAfterThrowsAdvice" />
+	<bean id="demoBeforeAdvice" class="com.bo.spring.advice.DemoBeforeAdvice" />
+	<bean id="demoAfterReturnAdvice" class="com.bo.spring.advice.DemoAfterReturnAdvice" />
+	<bean id="demoAroundAdvice" class="com.bo.spring.advice.DemoAroundAdvice" />
+	<bean id="demoAfterThrowsAdvice" class="com.bo.spring.advice.DemoAfterThrowsAdvice" />
 	
 	<!-- 声明AOP代理基类,使用  ProxyFactoryBean 产生代理对象-->
 	<bean id="baseProxy" class="org.springframework.aop.framework.ProxyFactoryBean" lazy-init="true" abstract="true">
@@ -34,7 +34,7 @@
 		<!-- 代理对象所实现的接口 ，如果有接口可以这样设置 --> 
 		<property name="interfaces">
 			<list>
-				<value>com.bo.demo.service.CustomerService</value>
+				<value>com.bo.spring.service.CustomerService</value>
 			</list>
 		</property>
 		<!-- 设置目标对象 --> 

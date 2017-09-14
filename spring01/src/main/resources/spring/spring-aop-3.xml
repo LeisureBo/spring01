@@ -6,16 +6,16 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	
 	<!-- 声明一个业务类 -->
-	<bean id="customerService" class="com.bo.demo.service.impl.CustomerServiceImpl" />
+	<bean id="customerService" class="com.bo.spring.service.impl.CustomerServiceImpl" />
 	
 	<!-- 声明切面通知类 将切面交给spring管理-->
-	<bean id="aspectAdvice" class="com.bo.demo.advice.AspectAdvice" />
+	<bean id="aspectAdvice" class="com.bo.spring.advice.AspectAdvice" />
 	
 	<!-- 进行AOP配置 -->
 	<aop:config>
 		<aop:aspect id="businessAspect" ref="aspectAdvice">
 			<!-- 配置指定切入的对象 -->
-			<aop:pointcut expression="execution (* com.bo.demo.service.impl.*.*(..))" id="point_cut"/>
+			<aop:pointcut expression="execution (* com.bo.spring.service.impl.*.*(..))" id="point_cut"/>
 			<!-- 以下通知调用的顺序与声明顺序无关.默认顺序:前置>环绕>后置1>异常>后置2 -->
 			<!-- 将通知类的doBefore方法指定为前置通知 -->
 			<aop:before method="doBefore" pointcut-ref="point_cut" />

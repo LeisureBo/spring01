@@ -1,9 +1,9 @@
-package com.bo.demo.service.impl;
+package com.bo.spring.service.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.bo.demo.entity.Customer;
-import com.bo.demo.service.CustomerService;
+import com.bo.spring.entity.Customer;
+import com.bo.spring.service.CustomerService;
 
 /**
  * @Description 业务方法实现
